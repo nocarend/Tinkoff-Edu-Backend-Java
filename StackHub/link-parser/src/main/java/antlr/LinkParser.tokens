@@ -1,0 +1,17 @@
+COLON=1
+SLASH=2
+HTTP=3
+HTTPS=4
+GITHUB=5
+STACKOVERFLOW=6
+QUESTIONS=7
+NUM=8
+WS=9
+ANY=10
+':'=1
+'/'=2
+'http'=3
+'https'=4
+'github.com/'=5
+'stackoverflow.com/'=6
+'questions/'=7
