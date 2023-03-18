@@ -9,7 +9,7 @@ public class ParserSetup {
         throw new AssertionError();
     }
 
-    public static LinkParserParser get(TokenStream tokenStream) {
+    public static LinkParserParser get(final TokenStream tokenStream) {
         return new LinkParserParser(tokenStream);
     }
 }

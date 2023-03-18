@@ -4,10 +4,11 @@ import antlr.LinkParserLexer;
 import org.antlr.v4.runtime.CharStreams;
 
 public class LexerSetup {
-    private LexerSetup(){
+    private LexerSetup() {
         throw new AssertionError();
     }
-    public static LinkParserLexer get(String url) {
+
+    public static LinkParserLexer get(final String url) {
         return new LinkParserLexer(CharStreams.fromString(url));
     }
 }

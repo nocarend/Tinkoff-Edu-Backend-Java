@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LinkVisitor extends LinkParserBaseVisitor<Map<String, String>> {
-    Map<String, String> contents = new HashMap<>();
+    private final Map<String, String> contents = new HashMap<>();
 
     @Override
     public Map<String, String> visitLink(LinkParserParser.LinkContext ctx) {

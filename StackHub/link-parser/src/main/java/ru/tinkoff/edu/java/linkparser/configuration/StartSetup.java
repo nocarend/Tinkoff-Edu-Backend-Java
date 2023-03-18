@@ -7,7 +7,7 @@ public class StartSetup {
         throw new AssertionError();
     }
 
-    public static LinkParserParser.LinkContext get(LinkParserParser parser) {
+    public static LinkParserParser.LinkContext get(final LinkParserParser parser) {
         return parser.link();
     }
 }
