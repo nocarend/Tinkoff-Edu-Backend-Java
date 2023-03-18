@@ -1,19 +1,14 @@
 package ru.tinkoff.edu.java.linkparser;
 
 import java.util.Map;
+import lombok.Getter;
 import ru.tinkoff.edu.java.linkparser.configuration.LexerSetup;
 import ru.tinkoff.edu.java.linkparser.configuration.ParserSetup;
 import ru.tinkoff.edu.java.linkparser.configuration.StartSetup;
 import ru.tinkoff.edu.java.linkparser.configuration.TokensSetup;
 import ru.tinkoff.edu.java.linkparser.configuration.VisitorSetup;
 
-public class InternalParser {
-    private final String url;
-
-    public InternalParser(String url) {
-        this.url = url;
-    }
-
+public record InternalParser(@Getter String url) {
     public Map<String, String> parseToMap() {
         var lexer = LexerSetup.get(url);
         var tokens = TokensSetup.get(lexer);
@@ -22,6 +17,4 @@ public class InternalParser {
         var visitor = VisitorSetup.get();
         return visitor.visit(tree);
     }
-
-
 }
