@@ -1,30 +1,23 @@
 package ru.tinkoff.edu.java.linkparser;
 
-public class ExternalParser {
-    private final String url;
+import lombok.Getter;
 
-    public ExternalParser(String url) {
-        this.url = url;
-    }
+public record ExternalParser(@Getter String url) {
+    private static final String GITHUB_REPOSITORY_NAME="repositoryName";
+    private static final String GITHUB_USERNAME = "username";
+    private static final String STACKOVERFLOW_QUESTION_ID = "questionId";
 
     public ParsedValue parse() {
         var map = new InternalParser(url).parseToMap();
         if (map.isEmpty()) {
             return null;
         }
-        if (map.containsKey(GithubHelper.repositoryName) && map.containsKey(
-                GithubHelper.username)) {
-            return new Github(map.get(GithubHelper.username), map.get(GithubHelper.repositoryName));
+        if (map.containsKey(GITHUB_REPOSITORY_NAME) && map.containsKey(
+                GITHUB_USERNAME)) {
+            return new Github(map.get(GITHUB_USERNAME),
+                              map.get(GITHUB_REPOSITORY_NAME));
         }
-        return new StackOverflow(map.get(StackOverflowHelper.questionId));
+        return new StackOverflow(map.get(STACKOVERFLOW_QUESTION_ID));
     }
 
-    private static final class GithubHelper {
-        static final String repositoryName = "repositoryName";
-        static final String username = "username";
-    }
-
-    private static final class StackOverflowHelper {
-        static final String questionId = "questionId";
-    }
 }
