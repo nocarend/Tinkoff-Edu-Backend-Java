@@ -9,7 +9,7 @@ public class TokensSetup {
         throw new AssertionError();
     }
 
-    public static TokenStream get(LinkParserLexer lexer) {
+    public static TokenStream get(final LinkParserLexer lexer) {
         return new CommonTokenStream(lexer);
     }
 }
