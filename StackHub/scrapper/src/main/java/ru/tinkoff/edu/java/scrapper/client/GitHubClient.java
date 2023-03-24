@@ -19,7 +19,7 @@ public class GitHubClient {
 
     public GitHubResponse getGitHubResponse(String username, String repositoryName) {
         return webClient.get()
-            .uri("/repos/{username}/{repositoryName}", username, repositoryName)
+            .uri("/repos/{username}/{repositoryName}/hooks", username, repositoryName)
             .retrieve()
             .bodyToMono(GitHubResponse.class)
             .block();
