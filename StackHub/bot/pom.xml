@@ -15,7 +15,6 @@
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
     <openapi-generator-maven-plugin>6.1.0</openapi-generator-maven-plugin>
-    <springdoc-openapi-starter-webmvc-ui>2.0.2</springdoc-openapi-starter-webmvc-ui>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
@@ -44,7 +43,6 @@
     <dependency>
       <groupId>org.springdoc</groupId>
       <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-      <version>${springdoc-openapi-starter-webmvc-ui}</version>
     </dependency>
     <dependency>
       <groupId>ru.valikov</groupId>

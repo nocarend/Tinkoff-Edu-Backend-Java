@@ -10,17 +10,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.tinkoff.edu.java.scrapper.dto.response.ApiErrorResponse;
 
 @RestController
+@RequestMapping("/tg-chat")
 public class TgController {
 
     @Operation(summary = "Зарегистрировать чат")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Чат зарегистрирован"),
     })
-    @PostMapping("/tg-chat/{id}")
+    @PostMapping("/{id}")
     public ResponseEntity<Void> registerChat(@PathVariable long id) {
         return new ResponseEntity<>(HttpStatus.OK);
     }

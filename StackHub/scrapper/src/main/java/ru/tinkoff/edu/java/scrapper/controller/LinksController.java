@@ -30,7 +30,7 @@ public class LinksController {
             @Content(mediaType = "application/json", schema =
             @Schema(implementation = ListLinksResponse.class))
         })})
-    @GetMapping("")
+    @GetMapping()
     public ResponseEntity<ListLinksResponse> getAllLinks(@RequestHeader long tgChatId) {
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -42,7 +42,7 @@ public class LinksController {
             @Schema(implementation = LinkResponse.class))
         })
     })
-    @PostMapping("")
+    @PostMapping()
     public ResponseEntity<LinkResponse> addLink(@RequestHeader long thChatId,
         @RequestBody AddLinkRequest link) {
         return new ResponseEntity<>(HttpStatus.OK);
@@ -59,7 +59,7 @@ public class LinksController {
             @Schema(implementation = ApiErrorResponse.class))
         })
     })
-    @DeleteMapping("")
+    @DeleteMapping()
     public ResponseEntity<LinkResponse> removeLink(@RequestHeader long tgChatId,
         @RequestBody RemoveLinkRequest link) {
         return new ResponseEntity<>(HttpStatus.OK);
