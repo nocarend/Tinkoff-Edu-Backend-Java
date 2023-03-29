@@ -20,7 +20,6 @@ class ExternalParserTest {
         final String url = "https://stackoverflow.com/questions/1642028/what-is-the-operator-in-c";
         Assertions.assertEquals("1642028", ((StackOverflow) new ExternalParser(
             url).parse()).questionId());
-
     }
 
     @Test

@@ -8,7 +8,6 @@ import ru.tinkoff.edu.java.linkparser.configuration.TokensSetup;
 import ru.tinkoff.edu.java.linkparser.configuration.VisitorSetup;
 
 public record InternalParser(String url) {
-
     public Map<String, String> parseToMap() {
         final var lexer = LexerSetup.get(url);
         final var tokens = TokensSetup.get(lexer);
