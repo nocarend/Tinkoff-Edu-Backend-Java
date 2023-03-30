@@ -2,6 +2,8 @@ package ru.tinkoff.edu.java.linkparser;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import ru.tinkoff.edu.java.linkparser.url.Github;
+import ru.tinkoff.edu.java.linkparser.url.StackOverflow;
 
 class ExternalParserTest {
 
@@ -17,8 +19,7 @@ class ExternalParserTest {
     void parseCorrectStackoverflow() {
         final String url = "https://stackoverflow.com/questions/1642028/what-is-the-operator-in-c";
         Assertions.assertEquals("1642028", ((StackOverflow) new ExternalParser(
-                url).parse()).questionId());
-
+            url).parse()).questionId());
     }
 
     @Test
