@@ -5,8 +5,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,10 +18,14 @@ import ru.tinkoff.edu.java.scrapper.dto.request.RemoveLinkRequest;
 import ru.tinkoff.edu.java.scrapper.dto.response.ApiErrorResponse;
 import ru.tinkoff.edu.java.scrapper.dto.response.LinkResponse;
 import ru.tinkoff.edu.java.scrapper.dto.response.ListLinksResponse;
+import ru.tinkoff.edu.java.scrapper.service.UserService;
 
 @RequestMapping("/links")
 @RestController
+@RequiredArgsConstructor
 public class LinksController {
+
+    private final UserService userService;
 
     @Operation(summary = "Получить все отслеживаемые ссылки")
     @ApiResponses(value = {
@@ -31,8 +34,8 @@ public class LinksController {
             @Schema(implementation = ListLinksResponse.class))
         })})
     @GetMapping
-    public ResponseEntity<ListLinksResponse> getAllLinks(@RequestHeader long tgChatId) {
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ListLinksResponse getAllLinks(@RequestHeader long tgChatId) {
+        return userService.getLinksFromChatId(tgChatId);
     }
 
     @Operation(summary = "Добавить отслеживание ссылки")
@@ -43,9 +46,9 @@ public class LinksController {
         })
     })
     @PostMapping
-    public ResponseEntity<LinkResponse> addLink(@RequestHeader long thChatId,
+    public LinkResponse addLink(@RequestHeader long tgChatId,
         @RequestBody AddLinkRequest link) {
-        return new ResponseEntity<>(HttpStatus.OK);
+        return userService.addLink(tgChatId, link.link());
     }
 
     @Operation(summary = "Убрать отслеживание ссылки")
@@ -60,8 +63,8 @@ public class LinksController {
         })
     })
     @DeleteMapping
-    public ResponseEntity<LinkResponse> removeLink(@RequestHeader long tgChatId,
+    public LinkResponse removeLink(@RequestHeader long tgChatId,
         @RequestBody RemoveLinkRequest link) {
-        return new ResponseEntity<>(HttpStatus.OK);
+        return userService.deleteLink(tgChatId, link.link());
     }
 }

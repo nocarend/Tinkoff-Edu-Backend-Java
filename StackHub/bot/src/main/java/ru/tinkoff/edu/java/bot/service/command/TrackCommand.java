@@ -2,17 +2,15 @@ package ru.tinkoff.edu.java.bot.service.command;
 
 
 import java.net.URI;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
+import java.util.Objects;
+import org.springframework.http.MediaType;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.tinkoff.edu.java.bot.service.CommandHandlerService;
+import reactor.core.publisher.Mono;
+import ru.tinkoff.edu.java.bot.dto.request.AddLinkRequest;
+import ru.tinkoff.edu.java.bot.dto.response.LinkResponse;
 
-@RequiredArgsConstructor
-@Controller
 public class TrackCommand implements Command {
-
-    private final CommandHandlerService handler;
 
     @Override
     public String command() {
@@ -32,8 +30,18 @@ public class TrackCommand implements Command {
         if (url.toString().isEmpty()) {
             return new SendMessage(chatId, "Link's length must be more than zero.");
         }
-        String response = String.valueOf(handler.trackLink(url, chatId));
-        return new SendMessage(chatId,
-            response.isEmpty() ? "Link has been already added." : "Link successfully added");
+        String response = Objects.requireNonNull(webClient.post()
+            .uri("/links")
+            .header("tgChatId", chatId)
+            .contentType(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON)
+            .body(Mono.just(new AddLinkRequest(url)), AddLinkRequest.class)
+            .retrieve()
+            .bodyToMono(LinkResponse.class)
+            .block()).toString();
+        if (response.isEmpty()) {
+            return new SendMessage(chatId, "Link has been already added.");
+        }
+        return new SendMessage(chatId, "Link successfully added");
     }
 }

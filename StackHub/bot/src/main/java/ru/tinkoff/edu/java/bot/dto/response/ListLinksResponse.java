@@ -3,6 +3,10 @@ package ru.tinkoff.edu.java.bot.dto.response;
 import java.util.List;
 import ru.tinkoff.edu.java.scrapper.dto.response.LinkResponse;
 
+/**
+ * ListLinksResponse
+ */
+
 public record ListLinksResponse(List<LinkResponse> links, int size) {
 
     @Override
