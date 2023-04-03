@@ -1,5 +1,7 @@
 package ru.tinkoff.edu.java.linkparser.url;
 
-public record StackOverflow(String questionId) implements ParsedValue {
+import lombok.NonNull;
+
+public record StackOverflow(@NonNull String questionId) implements ParsedValue {
 
 }

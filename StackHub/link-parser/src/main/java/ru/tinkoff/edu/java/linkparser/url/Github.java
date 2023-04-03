@@ -1,5 +1,8 @@
 package ru.tinkoff.edu.java.linkparser.url;
 
-public record Github(String username, String repositoryName) implements ParsedValue {
+import lombok.NonNull;
+
+public record Github(@NonNull String username, @NonNull String repositoryName) implements
+    ParsedValue {
 
 }

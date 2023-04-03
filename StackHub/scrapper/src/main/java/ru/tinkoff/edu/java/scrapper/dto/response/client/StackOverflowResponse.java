@@ -4,6 +4,6 @@ import java.time.OffsetDateTime;
 
 public record StackOverflowResponse(OffsetDateTime activity, OffsetDateTime creation,
                                     long votes) implements
-    LinkResponse {
+    LinkResponseMark {
 
 }
