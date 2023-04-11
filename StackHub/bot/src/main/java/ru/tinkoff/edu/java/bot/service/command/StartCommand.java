@@ -1,10 +1,17 @@
 package ru.tinkoff.edu.java.bot.service.command;
 
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import ru.tinkoff.edu.java.bot.service.CommandHandlerService;
 
+@RequiredArgsConstructor
+@Controller
 public class StartCommand implements Command {
+
+    private final CommandHandlerService handler;
 
     @Override
     public String command() {
@@ -19,7 +26,7 @@ public class StartCommand implements Command {
     @Override
     public SendMessage handle(Update update) {
         String chatId = message(update).getChatId().toString();
-        webClient.post().uri("/tg-chat/{chatId}", chatId);
+        handler.start(chatId);
         return new SendMessage(chatId, "Hello there!");
     }
 }

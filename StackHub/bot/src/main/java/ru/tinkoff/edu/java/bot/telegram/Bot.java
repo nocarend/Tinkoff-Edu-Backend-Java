@@ -1,4 +1,4 @@
-package ru.tinkoff.edu.java.bot.service.bot;
+package ru.tinkoff.edu.java.bot.telegram;
 
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
