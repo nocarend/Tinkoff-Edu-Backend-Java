@@ -14,16 +14,11 @@ public class Link {
 
     private URI url;
 
-    private List<User> users;
 
     public Link(URI url) {
         id = url.hashCode();
         this.url = url;
-        this.users = new ArrayList<>();
     }
 
-    public void addUser(User user) {
-        users.add(user);
-    }
 
 }

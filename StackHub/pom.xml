@@ -24,6 +24,7 @@
     <java.version>17</java.version>
     <spring-cloud.version>2022.0.0</spring-cloud.version>
     <spring-boot.version>3.0.1</spring-boot.version>
+    <spring-boot-starter-data-jdbc.version>3.0.1</spring-boot-starter-data-jdbc.version>
     <jetbrains-annotations.version>23.1.0</jetbrains-annotations.version>
     <springdoc-openapi-starter-webmvc-ui.version>2.0.2</springdoc-openapi-starter-webmvc-ui.version>
     <lombok.version>1.18.26</lombok.version>

@@ -4,16 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
 @Data
 @AllArgsConstructor
-public class User {
+public class Chat {
 
-    private long chatId;
+    private long id;
     private List<Link> links;
 
-    public User(long chatId) {
-        this.chatId = chatId;
+    public Chat(long chatId) {
+        this.id = chatId;
         links = new ArrayList<>();
     }
 

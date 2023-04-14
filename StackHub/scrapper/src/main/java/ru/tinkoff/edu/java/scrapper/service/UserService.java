@@ -7,13 +7,13 @@ import org.springframework.stereotype.Service;
 import ru.tinkoff.edu.java.scrapper.dto.response.LinkResponse;
 import ru.tinkoff.edu.java.scrapper.dto.response.ListLinksResponse;
 import ru.tinkoff.edu.java.scrapper.model.Link;
-import ru.tinkoff.edu.java.scrapper.repository.UserRepository;
+import ru.tinkoff.edu.java.scrapper.repository.ChatRepository;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserRepository repository;
+    private final ChatRepository repository;
 
     public ListLinksResponse getLinksFromChatId(long chatId) {
         List<Link> links = repository.getFromChatId(chatId);
@@ -29,7 +29,7 @@ public class UserService {
     }
 
     public void delete(long chatId) {
-        repository.getAllUsers().removeIf(user -> user.getChatId() == chatId);
+        repository.getAllUsers().removeIf(user -> user.getId() == chatId);
     }
 
     public LinkResponse addLink(long chatId, URI url) {
