@@ -8,7 +8,7 @@ create table if not exists link
 
 create table if not exists chat
 (
-    id      bigint primary key,
+    id      bigint not null,
     link_id bigint not null,
     foreign key (link_id) references link (id)
 );
