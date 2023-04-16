@@ -1,22 +1,18 @@
 package ru.tinkoff.edu.java.scrapper.model;
 
-import java.util.ArrayList;
-import java.util.List;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-@Data
-@AllArgsConstructor
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.Accessors;
+
+@ToString
+@Getter
+@Setter
+@Accessors(chain = true)
 public class Chat {
 
-    private long id;
-    private List<Link> links;
+    private long trackId;
+    private long chatId;
+    private long linkId;
 
-    public Chat(long chatId) {
-        this.id = chatId;
-        links = new ArrayList<>();
-    }
-
-    public void addLink(Link link) {
-        links.add(link);
-    }
 }

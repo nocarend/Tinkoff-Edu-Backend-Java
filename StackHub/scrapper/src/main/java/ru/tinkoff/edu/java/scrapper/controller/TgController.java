@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.tinkoff.edu.java.scrapper.dto.response.ApiErrorResponse;
-import ru.tinkoff.edu.java.scrapper.service.UserService;
+import ru.tinkoff.edu.java.scrapper.service.ChatService;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/tg-chat")
 public class TgController {
 
-    private final UserService userService;
+    private final ChatService chatService;
 
     @Operation(summary = "Зарегистрировать чат")
     @ApiResponses(value = {
@@ -27,7 +27,7 @@ public class TgController {
     })
     @PostMapping("/{chatId}")
     public void registerChat(@PathVariable long chatId) {
-        userService.create(chatId);
+        chatService.create(chatId);
     }
 
     @Operation(summary = "Удалить чат")
@@ -39,6 +39,6 @@ public class TgController {
     })
     @DeleteMapping("/tg-chat/{chatId}")
     public void deleteChat(@PathVariable long chatId) {
-        userService.delete(chatId);
+        chatService.delete(chatId);
     }
 }

@@ -1,63 +1,50 @@
 package ru.tinkoff.edu.java.scrapper.repository;
 
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import lombok.RequiredArgsConstructor;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.tinkoff.edu.java.scrapper.model.Chat;
-import ru.tinkoff.edu.java.scrapper.model.Link;
+import ru.tinkoff.edu.java.scrapper.repository.dto.ListChatsRepositoryResponse;
+import ru.tinkoff.edu.java.scrapper.repository.mapper.ChatListRowMapper;
 
 @Repository
+@RequiredArgsConstructor
 public class ChatRepository {
 
-    private final List<Chat> chatList;
+    private final JdbcTemplate jdbcTemplate;
+    private final ChatListRowMapper chatListRowMapper;
 
-    public ChatRepository() {
-        List<Chat> chats = new ArrayList<>();
-        chats.add(createUser(7777, new ArrayList<>(
-            List.of(new Link(URI.create("1")), new Link(URI.create("2")),
-                new Link(URI.create("3"))))));
-        chats.add(createUser(1111,
-            new ArrayList<>(List.of(new Link(URI.create("1")), new Link(URI.create("2"))))));
-        chats.add(createUser(222, new ArrayList<>(List.of(new Link(URI.create("1"))))));
-        chats.add(createUser(333, new ArrayList<>()));
-        chats.add(createUser(444, new ArrayList<>()));
-        this.chatList = chats;
+    @Transactional
+    public void add(Chat chat) {
+        Map<String, Object> params = new HashMap<>(
+            Map.of("chat_id", chat.getChatId(), "link_id", chat.getLinkId()));
+        SqlParameterSource paramSource = new MapSqlParameterSource(params);
+        jdbcTemplate.update("insert into chat(chat_id, link_id) values (:chat_id, :link_id)",
+            paramSource);
     }
 
-    public Chat createUser(long chatId, List<Link> links) {
-        return new Chat(chatId, links);
+    @Transactional
+    public void remove(long trackId) {
+        Map<String, Object> params = new HashMap<>(
+            Map.of("track_id", trackId));
+        SqlParameterSource paramSource = new MapSqlParameterSource(params);
+        jdbcTemplate.update("delete from chat where track_id = :track_id", paramSource);
     }
 
-    public Chat createUser(long chatId) {
-        if (chatList.stream().anyMatch(chat -> chat.getId() == chatId)) {
-            throw new IllegalArgumentException();
-        }
-        Chat chat = new Chat(chatId);
-        chatList.add(chat);
-        return chat;
+    public ListChatsRepositoryResponse findAll() {
+        return jdbcTemplate.queryForObject("select * from chat", chatListRowMapper);
     }
 
-    public List<Chat> getAllUsers() {
-        return chatList;
-    }
-
-    public List<Link> getFromChatId(long chatId) {
-        for (var user : chatList) {
-            if (user.getId() == chatId) {
-                return user.getLinks();
-            }
-        }
-        return new ArrayList<>();
-    }
-
-    public boolean contains(long chatId) {
-        return chatList.stream().anyMatch(chat -> chat.getId() == chatId);
-    }
-
-    public boolean containsLink(long chatId, URI url) {
-        return chatList.stream().filter(chat -> chat.getId() == chatId).findFirst()
-            .filter(chat -> chat.getLinks().stream().anyMatch(link -> link.getUrl().equals(url)))
-            .isPresent();
+    public ListChatsRepositoryResponse findByChatId(long chatId) {
+        Map<String, Object> params = new HashMap<>(
+            Map.of("chat_id", chatId));
+        SqlParameterSource paramSource = new MapSqlParameterSource(params);
+        return jdbcTemplate.queryForObject("select * from chat where chat_id = :chat_id",
+            new SqlParameterSource[]{paramSource}, chatListRowMapper);
     }
 }
