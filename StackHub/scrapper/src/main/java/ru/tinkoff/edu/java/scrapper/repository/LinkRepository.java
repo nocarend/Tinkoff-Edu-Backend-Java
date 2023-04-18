@@ -2,6 +2,7 @@ package ru.tinkoff.edu.java.scrapper.repository;
 
 
 import java.net.URI;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,5 +67,13 @@ public class LinkRepository {
         SqlParameterSource paramSource = new MapSqlParameterSource(params);
         return jdbcTemplate.query("select * from link where url = :url",
             paramSource, linkRowMapper);
+    }
+
+    public void setNewUpdateTime(long id) {
+        Map<String, Object> params = new HashMap<>(
+            Map.of("id", id, "updated_at", new Timestamp(System.currentTimeMillis())));
+        SqlParameterSource paramSource = new MapSqlParameterSource(params);
+        jdbcTemplate.update(
+            "update link set updated_at = :updated_at where id = :id", paramSource);
     }
 }

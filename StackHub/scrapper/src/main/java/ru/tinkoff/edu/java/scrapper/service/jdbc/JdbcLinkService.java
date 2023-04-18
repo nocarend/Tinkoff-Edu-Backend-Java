@@ -53,6 +53,11 @@ public class JdbcLinkService implements LinkService {
             .filter(link -> link.getUpdatedAt().before(timeBeforeUpdates)).toList();
     }
 
+    @Override
+    public void setCurrentUpdateTime(List<Long> links) {
+        links.forEach(repository::setNewUpdateTime);
+    }
+
     public boolean contains(URI url) {
         return getLinkByUrl(url).getUrl() != null;
     }

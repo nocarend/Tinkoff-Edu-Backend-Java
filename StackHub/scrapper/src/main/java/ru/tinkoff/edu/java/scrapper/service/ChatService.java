@@ -15,4 +15,5 @@ public interface ChatService {
     Link track(long chatId, URI url);
 
     Link untrack(long chatId, URI url);
+    List<Long> getChatsFromLinkId(long linkId);
 }

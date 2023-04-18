@@ -7,9 +7,10 @@ import org.springframework.stereotype.Service;
 import ru.tinkoff.edu.java.linkparser.ExternalParser;
 import ru.tinkoff.edu.java.linkparser.url.Github;
 import ru.tinkoff.edu.java.linkparser.url.StackOverflow;
-import ru.tinkoff.edu.java.scrapper.client.TelegramBotClient;
 import ru.tinkoff.edu.java.scrapper.client.GitHubClient;
 import ru.tinkoff.edu.java.scrapper.client.StackOverflowClient;
+import ru.tinkoff.edu.java.scrapper.client.TelegramBotClient;
+import ru.tinkoff.edu.java.scrapper.service.ChatService;
 import ru.tinkoff.edu.java.scrapper.service.LinkService;
 import ru.tinkoff.edu.java.scrapper.service.LinkUpdater;
 
@@ -18,6 +19,7 @@ import ru.tinkoff.edu.java.scrapper.service.LinkUpdater;
 public class JdbcLinkUpdaterService implements LinkUpdater {
 
     private final LinkService linkService;
+    private final ChatService chatService;
 
     private final TelegramBotClient telegramBotClient;
     private final GitHubClient gitHubClient;
@@ -33,16 +35,26 @@ public class JdbcLinkUpdaterService implements LinkUpdater {
             switch (value) {
                 case Github github -> {
                     if (!gitHubClient.getGitHubResponse(github.username(), github.repositoryName())
-                        .updatedAt().equals(link.getUpdatedAt())) {
+                        .updatedAt().toLocalDateTime()
+                        .equals(link.getUpdatedAt().toLocalDateTime())) {
                         numberOfUpdatedLinks++;
-                        telegramBotClient.sendUpdate();
+                        var chats = chatService.getChatsFromLinkId(link.getId());
+                        linkService.setCurrentUpdateTime(chats);
+                        telegramBotClient.sendUpdate(link.getId(), link.getUrl(),
+                            "New updates from Github!",
+                            chats);
                     }
                 }
                 case StackOverflow stackOverflow -> {
                     if (!stackOverflowClient.getStackOverflowResponse(stackOverflow.questionId())
-                        .activity().equals(link.getUpdatedAt())) {
+                        .activity().toLocalDateTime()
+                        .equals(link.getUpdatedAt().toLocalDateTime())) {
                         numberOfUpdatedLinks++;
-                        telegramBotClient.sendUpdate();
+                        var chats = chatService.getChatsFromLinkId(link.getId());
+                        linkService.setCurrentUpdateTime(chats);
+                        telegramBotClient.sendUpdate(link.getId(), link.getUrl(),
+                            "New comments and answers from StackOverflow!",
+                            chats);
                     }
                 }
                 default -> throw new NotImplementedException();

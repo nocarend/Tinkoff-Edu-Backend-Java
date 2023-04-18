@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import ru.tinkoff.edu.java.scrapper.model.Chat;
 import ru.tinkoff.edu.java.scrapper.model.Link;
 import ru.tinkoff.edu.java.scrapper.repository.ChatRepository;
+import ru.tinkoff.edu.java.scrapper.repository.dto.ChatRepositoryResponse;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +21,12 @@ public class ChatService implements ru.tinkoff.edu.java.scrapper.service.ChatSer
         var links = repository.findByChatId(chatId).tracks();
         return links.stream().map(link -> new Link().setId(link.linkId())
             .setUrl(jdbcLinkService.getLinkById(link.linkId()).getUrl())).toList();
+    }
+
+    @Override
+    public List<Long> getChatsFromLinkId(long linkId) {
+        return repository.findAll().tracks().stream().filter(track -> track.linkId() == linkId)
+            .map(ChatRepositoryResponse::chatId).toList();
     }
 
     @Override
