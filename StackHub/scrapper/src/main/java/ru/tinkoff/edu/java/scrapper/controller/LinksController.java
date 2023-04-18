@@ -19,6 +19,7 @@ import ru.tinkoff.edu.java.scrapper.dto.response.ApiErrorResponse;
 import ru.tinkoff.edu.java.scrapper.dto.response.LinkResponse;
 import ru.tinkoff.edu.java.scrapper.dto.response.ListLinksResponse;
 import ru.tinkoff.edu.java.scrapper.service.ChatService;
+import ru.tinkoff.edu.java.scrapper.service.LinkService;
 
 @RequestMapping("/links")
 @RestController
@@ -26,6 +27,7 @@ import ru.tinkoff.edu.java.scrapper.service.ChatService;
 public class LinksController {
 
     private final ChatService chatService;
+    private final LinkService linkService;
 
     @Operation(summary = "Получить все отслеживаемые ссылки")
     @ApiResponses(value = {
@@ -35,7 +37,10 @@ public class LinksController {
         })})
     @GetMapping
     public ListLinksResponse getAllLinks(@RequestHeader long tgChatId) {
-        return chatService.getLinksFromChatId(tgChatId);
+        var list = chatService.getLinksFromChatId(tgChatId).stream()
+            .map(link -> new LinkResponse(
+                link.getId(), link.getUrl())).toList();
+        return new ListLinksResponse(list, list.size());
     }
 
     @Operation(summary = "Добавить отслеживание ссылки")
@@ -48,7 +53,8 @@ public class LinksController {
     @PostMapping
     public LinkResponse addLink(@RequestHeader long tgChatId,
         @RequestBody AddLinkRequest link) {
-        return chatService.track(tgChatId, link.link());
+        var linkResponse = chatService.track(tgChatId, link.link());
+        return new LinkResponse(linkResponse.getId(), linkResponse.getUrl());
     }
 
     @Operation(summary = "Убрать отслеживание ссылки")
@@ -65,6 +71,7 @@ public class LinksController {
     @DeleteMapping
     public LinkResponse removeLink(@RequestHeader long tgChatId,
         @RequestBody RemoveLinkRequest link) {
-        return chatService.untrack(tgChatId, link.link());
+        var linkResponse = chatService.untrack(tgChatId, link.link());
+        return new LinkResponse(linkResponse.getId(), linkResponse.getUrl());
     }
 }

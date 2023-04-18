@@ -1,4 +1,4 @@
-package db;
+package ru.tinkoff.edu.java.scrapper.db;
 
 import java.io.FileNotFoundException;
 import java.nio.file.Path;
@@ -16,10 +16,13 @@ import liquibase.exception.LiquibaseException;
 import liquibase.resource.DirectoryResourceAccessor;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.Network;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
+@Testcontainers
 public class IntegrationEnvironment implements BeforeAllCallback {
 
     public static final PostgreSQLContainer<?> postgres;
@@ -37,6 +40,13 @@ public class IntegrationEnvironment implements BeforeAllCallback {
     }
 
     private AtomicBoolean initialized = new AtomicBoolean(false);
+
+    @DynamicPropertySource
+    static void jdbcProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", postgres::getJdbcUrl);
+        registry.add("spring.datasource.username",postgres::getUsername);
+        registry.add("spring.datasource.password", postgres::getPassword);
+    }
 
     @Override
     public void beforeAll(ExtensionContext extensionContext)

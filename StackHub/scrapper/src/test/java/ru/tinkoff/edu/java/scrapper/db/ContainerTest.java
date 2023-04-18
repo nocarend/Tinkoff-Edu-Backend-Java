@@ -1,6 +1,4 @@
-package db;
-
-import static db.IntegrationEnvironment.postgres;
+package ru.tinkoff.edu.java.scrapper.db;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -13,15 +11,15 @@ public class ContainerTest {
 
     @Test
     void isRunningTest() {
-        Assertions.assertTrue(postgres.isRunning());
+        Assertions.assertTrue(IntegrationEnvironment.postgres.isRunning());
     }
 
     @Test
     void tableNamesTest() throws SQLException {
         var connection = DriverManager.getConnection(
-            postgres.getJdbcUrl(),
-            postgres.getUsername(),
-            postgres.getPassword()).getMetaData();
+            IntegrationEnvironment.postgres.getJdbcUrl(),
+            IntegrationEnvironment.postgres.getUsername(),
+            IntegrationEnvironment.postgres.getPassword()).getMetaData();
         var resultTrue = connection.getTables(null, null, "chat", null);
         var resultFalse = connection.getTables(null, null, "nonchat", null);
         Assertions.assertAll("",

@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SchedulerConfig {
 
-    @Bean("delay")
+    @Bean
     public long getDelay(ApplicationConfig config) {
         return config.scheduler().interval().toMillis();
     }

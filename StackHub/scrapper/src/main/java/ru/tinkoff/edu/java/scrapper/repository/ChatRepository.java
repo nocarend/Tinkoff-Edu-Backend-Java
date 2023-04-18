@@ -3,8 +3,8 @@ package ru.tinkoff.edu.java.scrapper.repository;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +16,7 @@ import ru.tinkoff.edu.java.scrapper.repository.mapper.ChatListRowMapper;
 @RequiredArgsConstructor
 public class ChatRepository {
 
-    private final JdbcTemplate jdbcTemplate;
+    private final NamedParameterJdbcTemplate jdbcTemplate;
     private final ChatListRowMapper chatListRowMapper;
 
     @Transactional
@@ -37,7 +37,8 @@ public class ChatRepository {
     }
 
     public ListChatsRepositoryResponse findAll() {
-        return jdbcTemplate.queryForObject("select * from chat", chatListRowMapper);
+        return jdbcTemplate.queryForObject("select * from chat", new HashMap<>(),
+            chatListRowMapper);
     }
 
     public ListChatsRepositoryResponse findByChatId(long chatId) {
@@ -45,6 +46,6 @@ public class ChatRepository {
             Map.of("chat_id", chatId));
         SqlParameterSource paramSource = new MapSqlParameterSource(params);
         return jdbcTemplate.queryForObject("select * from chat where chat_id = :chat_id",
-            new SqlParameterSource[]{paramSource}, chatListRowMapper);
+            paramSource, chatListRowMapper);
     }
 }
