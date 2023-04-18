@@ -11,8 +11,10 @@ class ExternalParserTest {
     void parseCorrectGithub() {
         final String url = "https://github.com/sanyarnd/tinkoff-java-course-2022/";
         final Github data = (Github) new ExternalParser(url).parse();
-        Assertions.assertEquals("sanyarnd", data.username());
-        Assertions.assertEquals("tinkoff-java-course-2022", data.repositoryName());
+        Assertions.assertAll(
+            () -> Assertions.assertEquals("sanyarnd", data.username()),
+            () -> Assertions.assertEquals("tinkoff-java-course-2022", data.repositoryName())
+        );
     }
 
     @Test
@@ -26,5 +28,21 @@ class ExternalParserTest {
     void parseWrongStackoverflow() {
         final String url = "https://stackoverflow.com/search?q=unsupported%20link";
         Assertions.assertNull(new ExternalParser(url).parse());
+    }
+
+    @Test
+    void parseWrongGitHub() {
+        final String url = "https://github.com/pysathq";
+        Assertions.assertNull(new ExternalParser(url).parse());
+    }
+
+    @Test
+    void parseTeacherCorrectGitHub() {
+        final String url = "https://github.com/dmitry-irtegov/NSU-Python2023";
+        final Github data = (Github) new ExternalParser(url).parse();
+        Assertions.assertAll(
+            () -> Assertions.assertEquals("dmitry-irtegov", data.username()),
+            () -> Assertions.assertEquals("NSU-Python2023", data.repositoryName())
+        );
     }
 }

@@ -1,10 +1,12 @@
 package ru.tinkoff.edu.java.linkparser;
 
+import lombok.NonNull;
 import ru.tinkoff.edu.java.linkparser.url.Github;
 import ru.tinkoff.edu.java.linkparser.url.ParsedValue;
 import ru.tinkoff.edu.java.linkparser.url.StackOverflow;
 
-public record ExternalParser(String url) {
+public record ExternalParser(@NonNull String url) {
+
     private static final String GITHUB_REPOSITORY_NAME = "repositoryName";
     private static final String GITHUB_USERNAME = "username";
     private static final String STACKOVERFLOW_QUESTION_ID = "questionId";
