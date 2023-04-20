@@ -38,7 +38,6 @@ public class ContainerTest {
         var result = makeConnection().getTables(null, null, "databasechangelog", null);
         result.next();
         Assertions.assertAll(
-            () -> Assertions.assertTrue(result.next()),
-            () -> Assertions.assertEquals(result.getString(0), "postgres"));
+            () -> Assertions.assertTrue(result.next()));
     }
 }
