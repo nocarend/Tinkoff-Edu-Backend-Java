@@ -14,6 +14,7 @@ import ru.tinkoff.edu.java.scrapper.service.ChatService;
 import ru.tinkoff.edu.java.scrapper.service.LinkService;
 import ru.tinkoff.edu.java.scrapper.service.LinkUpdater;
 
+
 @Service
 @RequiredArgsConstructor
 public class JdbcLinkUpdaterService implements LinkUpdater {

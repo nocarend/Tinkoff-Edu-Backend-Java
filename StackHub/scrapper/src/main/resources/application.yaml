@@ -1,6 +1,7 @@
 app:
   scheduler:
-    interval: 100
+    interval: 1000000
+  database-access-type: jdbc
 
 server:
   port: 8180
@@ -15,6 +16,8 @@ spring:
     url: jdbc:postgresql://localhost:5432/scrapper
   liquibase:
     change-log: classpath:migrations/master.xml
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
