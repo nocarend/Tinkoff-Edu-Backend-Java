@@ -2,21 +2,24 @@ package db;
 
 import static db.IntegrationEnvironment.postgres;
 
-import java.sql.DatabaseMetaData;
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 @ExtendWith(IntegrationEnvironment.class)
+@Testcontainers
 public class ContainerTest {
 
-    DatabaseMetaData makeConnection() throws SQLException {
+    Connection makeConnection() throws SQLException {
         return DriverManager.getConnection(
             postgres.getJdbcUrl(),
             postgres.getUsername(),
-            postgres.getPassword()).getMetaData();
+            postgres.getPassword()).getMetaData().getConnection();
     }
 
     @Test
@@ -26,18 +29,40 @@ public class ContainerTest {
 
     @Test
     void tableNamesTest() throws SQLException {
-        var resultTrue = makeConnection().getTables(null, null, "chat", null);
-        var resultFalse = makeConnection().getTables(null, null, "nonchat", null);
-        Assertions.assertAll(
-            () -> Assertions.assertTrue(resultTrue.next()),
-            () -> Assertions.assertFalse(resultFalse.next()));
+        try (var resultTrue = makeConnection().getMetaData().getTables(null, null, "chat", null)) {
+            var resultFalse = makeConnection().getMetaData().getTables(null, null, "nonchat", null);
+            var anotherExistedTableCheck = makeConnection().getMetaData()
+                .getTables(null, null, "link", null);
+            Assertions.assertAll(
+                () -> Assertions.assertTrue(resultTrue.next()),
+                () -> Assertions.assertTrue(anotherExistedTableCheck.next()),
+                () -> Assertions.assertFalse(resultFalse.next()));
+        }
     }
 
     @Test
-    void changeLogExistenseTest() throws SQLException {
-        var result = makeConnection().getTables(null, null, "databasechangelog", null);
-        result.next();
-        Assertions.assertAll(
-            () -> Assertions.assertTrue(result.next()));
+    void changeLogExistenceTest() throws SQLException {
+        try (var result = makeConnection().getMetaData()
+            .getTables(null, null, "databasechangelog", null)) {
+            Assertions.assertAll(
+                () -> Assertions.assertTrue(result.next()));
+        }
+    }
+
+    @Test
+    void changeLogSucceedRecordsTest() throws SQLException {
+        Statement statement;
+        try (var connection = makeConnection()) {
+            //        System.out.println(result.getString("exectype"));
+            statement = connection.createStatement();
+            var result = statement.executeQuery("SELECT exectype FROM databasechangelog");
+            Assertions.assertAll(
+                () -> {
+                    while (result.next()) {
+                        Assertions.assertEquals("EXECUTED", result.getString("exectype"));
+                    }
+                }
+            );
+        }
     }
 }
