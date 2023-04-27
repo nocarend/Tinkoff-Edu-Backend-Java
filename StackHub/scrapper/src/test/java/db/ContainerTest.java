@@ -53,7 +53,6 @@ public class ContainerTest {
     void changeLogSucceedRecordsTest() throws SQLException {
         Statement statement;
         try (var connection = makeConnection()) {
-            //        System.out.println(result.getString("exectype"));
             statement = connection.createStatement();
             var result = statement.executeQuery("SELECT exectype FROM databasechangelog");
             Assertions.assertAll(
