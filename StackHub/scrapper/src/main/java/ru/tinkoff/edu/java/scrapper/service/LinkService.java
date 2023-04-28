@@ -7,6 +7,7 @@ import ru.tinkoff.edu.java.scrapper.model.Link;
 
 public interface LinkService {
 
+
     Link add(URI url);
 
     Link remove(URI url);
@@ -18,5 +19,7 @@ public interface LinkService {
     List<Link> findAll(Timestamp timeBeforeUpdates);
 
     void setCurrentUpdateTime(List<Long> ids);
+
+    boolean contains(URI url);
 
 }

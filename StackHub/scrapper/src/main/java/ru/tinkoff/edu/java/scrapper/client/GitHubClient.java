@@ -8,8 +8,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import ru.tinkoff.edu.java.scrapper.dto.response.client.GitHubResponse;
 
 @Getter
-@Service
 @Setter
+@Service
 public class GitHubClient {
 
     private final WebClient webClient;
