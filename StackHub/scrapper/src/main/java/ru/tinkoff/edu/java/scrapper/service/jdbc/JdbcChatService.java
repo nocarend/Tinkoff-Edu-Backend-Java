@@ -8,10 +8,11 @@ import ru.tinkoff.edu.java.scrapper.model.Chat;
 import ru.tinkoff.edu.java.scrapper.model.Link;
 import ru.tinkoff.edu.java.scrapper.repository.ChatRepository;
 import ru.tinkoff.edu.java.scrapper.repository.dto.ChatRepositoryResponse;
+import ru.tinkoff.edu.java.scrapper.service.ChatService;
 
 @Service
 @RequiredArgsConstructor
-public class ChatService implements ru.tinkoff.edu.java.scrapper.service.ChatService {
+public class JdbcChatService implements ChatService {
 
     private final ChatRepository repository;
     private final JdbcLinkService jdbcLinkService;
@@ -34,7 +35,6 @@ public class ChatService implements ru.tinkoff.edu.java.scrapper.service.ChatSer
         if (!repository.findByChatId(chatId).tracks().isEmpty()) {
             throw new UnsupportedOperationException();
         }
-//        repository.createUser(chatId);
     }
 
     @Override
@@ -44,9 +44,6 @@ public class ChatService implements ru.tinkoff.edu.java.scrapper.service.ChatSer
 
     @Override
     public Link track(long chatId, final URI url) {
-//        if (!repository.findByChatId(chatId).tracks().isEmpty()) {
-//            repository.createUser(chatId);
-//        }
         if (!jdbcLinkService.contains(url)) {
             jdbcLinkService.add(url);
             repository.add(new Chat()
@@ -67,8 +64,6 @@ public class ChatService implements ru.tinkoff.edu.java.scrapper.service.ChatSer
         repository.findByChatId(chatId).tracks()
             .removeIf(
                 track -> jdbcLinkService.getLinkById(track.linkId()).getUrl().equals(url));
-//        if (repository.f) perform deleting if noone tracks the link
-        // remove()
         return new Link().setUrl(url);
     }
 }

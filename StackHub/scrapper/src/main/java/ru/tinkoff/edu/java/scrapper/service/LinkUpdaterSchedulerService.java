@@ -1,18 +1,16 @@
-package ru.tinkoff.edu.java.scrapper.controller;
+package ru.tinkoff.edu.java.scrapper.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Controller;
-import ru.tinkoff.edu.java.scrapper.service.LinkService;
-import ru.tinkoff.edu.java.scrapper.service.LinkUpdater;
+import org.springframework.stereotype.Service;
 
 @EnableScheduling
-@Controller
 @Log4j2
+@Service
 @RequiredArgsConstructor
-public class LinkUpdaterSchedulerController {
+public class LinkUpdaterSchedulerService {
 
     private final LinkUpdater linkUpdater;
 
