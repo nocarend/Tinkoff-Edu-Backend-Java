@@ -1,0 +1,8 @@
+bot:
+  token: ${token}
+  name: ${name}
+  scrapper:
+    url: http://localhost:8080
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html

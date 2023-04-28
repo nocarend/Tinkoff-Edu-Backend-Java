@@ -1,0 +1,26 @@
+app:
+  scheduler:
+    interval: 100
+
+server:
+  port: 8180
+spring:
+  #  sql:
+  #    init:
+  #      mode: always
+  datasource:
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/scrapper
+  liquibase:
+    change-log: classpath:migrations/master.xml
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+github:
+  base-url: https://api.github.com
+stackoverflow:
+  base-url: https://api.stackexchange.com/2.3
+bot:
+  base-url: http://localhost:8080

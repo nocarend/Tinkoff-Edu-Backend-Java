@@ -9,7 +9,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
 @Data
-@PropertySource("application.properties")
 public class BotConfig {
 
 
