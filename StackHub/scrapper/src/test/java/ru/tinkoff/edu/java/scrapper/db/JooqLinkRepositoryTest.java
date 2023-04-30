@@ -48,6 +48,7 @@ public class JooqLinkRepositoryTest extends IntegrationEnvironment {
         linkRepository.add("https://github.com/nocarend/OOP", new Timestamp(10));
         linkRepository.add("https://github.com/dmitry-irtegov/NSU-Python2023", new Timestamp(10));
         var result = linkRepository.findAllLinks();
+        System.out.println(result);
         Assertions.assertAll(
             () -> Assertions.assertEquals(new Link().setId(result.get(0).getId())
                     .setUrl(URI.create("https://github.com/nocarend/Tinkoff-Edu-Backend-Java"))
