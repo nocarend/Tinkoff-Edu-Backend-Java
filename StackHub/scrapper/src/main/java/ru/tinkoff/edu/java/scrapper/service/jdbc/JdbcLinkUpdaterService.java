@@ -1,5 +1,6 @@
 package ru.tinkoff.edu.java.scrapper.service.jdbc;
 
+import java.net.URI;
 import java.sql.Timestamp;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.NotImplementedException;
@@ -41,7 +42,7 @@ public class JdbcLinkUpdaterService implements LinkUpdater {
                         numberOfUpdatedLinks++;
                         var chats = chatService.getChatsFromLinkId(link.getId());
                         linkService.setCurrentUpdateTime(chats);
-                        telegramBotClient.sendUpdate(link.getId(), link.getUrl(),
+                        telegramBotClient.sendUpdate(link.getId(), URI.create(link.getUrl()),
                             "New updates from Github!",
                             chats);
                     }
@@ -53,7 +54,7 @@ public class JdbcLinkUpdaterService implements LinkUpdater {
                         numberOfUpdatedLinks++;
                         var chats = chatService.getChatsFromLinkId(link.getId());
                         linkService.setCurrentUpdateTime(chats);
-                        telegramBotClient.sendUpdate(link.getId(), link.getUrl(),
+                        telegramBotClient.sendUpdate(link.getId(), URI.create(link.getUrl()),
                             "New comments and answers from StackOverflow!",
                             chats);
                     }
