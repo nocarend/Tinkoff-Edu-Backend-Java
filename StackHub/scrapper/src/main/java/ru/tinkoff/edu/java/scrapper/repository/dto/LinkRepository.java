@@ -9,7 +9,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class LinkRepositoryResponse {
+public class LinkRepository {
 
     @Id
     Long id;

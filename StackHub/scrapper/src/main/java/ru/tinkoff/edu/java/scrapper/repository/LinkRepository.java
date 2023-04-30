@@ -13,7 +13,6 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.tinkoff.edu.java.scrapper.repository.dto.AddLinkRequest;
-import ru.tinkoff.edu.java.scrapper.repository.dto.LinkRepositoryResponse;
 import ru.tinkoff.edu.java.scrapper.repository.dto.ListLinksRepositoryResponse;
 import ru.tinkoff.edu.java.scrapper.repository.mapper.LinkListRowMapper;
 import ru.tinkoff.edu.java.scrapper.repository.mapper.LinkRowMapper;
@@ -52,7 +51,7 @@ public class LinkRepository {
     }
 
 
-    public List<LinkRepositoryResponse> findById(long id) {
+    public List<ru.tinkoff.edu.java.scrapper.repository.dto.LinkRepository> findById(long id) {
         Map<String, Object> params = new HashMap<>(
             Map.of("id", id));
         SqlParameterSource paramSource = new MapSqlParameterSource(params);
@@ -61,7 +60,7 @@ public class LinkRepository {
     }
 
     @Transactional
-    public List<LinkRepositoryResponse> findByUrl(URI url) {
+    public List<ru.tinkoff.edu.java.scrapper.repository.dto.LinkRepository> findByUrl(URI url) {
         Map<String, Object> params = new HashMap<>(
             Map.of("url", url.toString()));
         SqlParameterSource paramSource = new MapSqlParameterSource(params);

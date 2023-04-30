@@ -1,6 +1,5 @@
 package ru.tinkoff.edu.java.scrapper.repository.mapper;
 
-import java.net.URI;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
@@ -14,7 +13,7 @@ public class LinkRowMapper implements RowMapper<Link> {
     public Link mapRow(ResultSet rs, int rowNum) throws SQLException {
         return (new Link().setId(
                 rs.getLong("id"))
-            .setUrl(URI.create(rs.getString("url")))
+            .setUrl(rs.getString("url"))
             .setUpdatedAt(rs.getTimestamp("updated_at")));
     }
 }

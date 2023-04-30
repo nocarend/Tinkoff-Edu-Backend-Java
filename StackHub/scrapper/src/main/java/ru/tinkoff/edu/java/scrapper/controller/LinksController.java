@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,7 +40,7 @@ public class LinksController {
     public ListLinksResponse getAllLinks(@RequestHeader long tgChatId) {
         var list = chatService.getLinksFromChatId(tgChatId).stream()
             .map(link -> new LinkResponse(
-                link.getId(), link.getUrl())).toList();
+                link.getId(), URI.create(link.getUrl()))).toList();
         return new ListLinksResponse(list, list.size());
     }
 
@@ -54,7 +55,7 @@ public class LinksController {
     public LinkResponse addLink(@RequestHeader long tgChatId,
         @RequestBody AddLinkRequest link) {
         var linkResponse = chatService.track(tgChatId, link.link());
-        return new LinkResponse(linkResponse.getId(), linkResponse.getUrl());
+        return new LinkResponse(linkResponse.getId(), URI.create(linkResponse.getUrl()));
     }
 
     @Operation(summary = "Убрать отслеживание ссылки")
@@ -72,6 +73,6 @@ public class LinksController {
     public LinkResponse removeLink(@RequestHeader long tgChatId,
         @RequestBody RemoveLinkRequest link) {
         var linkResponse = chatService.untrack(tgChatId, link.link());
-        return new LinkResponse(linkResponse.getId(), linkResponse.getUrl());
+        return new LinkResponse(linkResponse.getId(), URI.create(linkResponse.getUrl()));
     }
 }
