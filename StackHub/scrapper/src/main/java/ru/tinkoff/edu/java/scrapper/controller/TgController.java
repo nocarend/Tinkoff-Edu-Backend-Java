@@ -12,14 +12,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.tinkoff.edu.java.scrapper.dto.response.ApiErrorResponse;
-import ru.tinkoff.edu.java.scrapper.service.jdbc.JdbcChatService;
+
+import ru.tinkoff.edu.java.scrapper.service.ChatService;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/tg-chat")
 public class TgController {
 
-    private final JdbcChatService chatService;
+    private final ChatService chatService;
 
     @Operation(summary = "Зарегистрировать чат")
     @ApiResponses(value = {
