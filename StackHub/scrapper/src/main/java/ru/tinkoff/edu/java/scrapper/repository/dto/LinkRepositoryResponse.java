@@ -1,8 +1,19 @@
 package ru.tinkoff.edu.java.scrapper.repository.dto;
 
-import java.net.URI;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import java.sql.Timestamp;
+import lombok.Getter;
+import lombok.Setter;
 
-public record LinkRepositoryResponse(long id, URI url, Timestamp updatedAt) {
+@Entity
+@Getter
+@Setter
+public class LinkRepositoryResponse {
+
+    @Id
+    Long id;
+    String url;
+    Timestamp updatedAt;
 
 }

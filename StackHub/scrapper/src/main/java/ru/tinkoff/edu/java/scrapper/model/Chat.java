@@ -2,6 +2,7 @@ package ru.tinkoff.edu.java.scrapper.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,6 +15,7 @@ import lombok.experimental.Accessors;
 @Entity
 @Accessors(chain = true)
 @EqualsAndHashCode
+@AllArgsConstructor
 public class Chat {
 
     @Id
@@ -21,4 +23,7 @@ public class Chat {
     private long chatId;
     private long linkId;
 
+    public Chat() {
+
+    }
 }
