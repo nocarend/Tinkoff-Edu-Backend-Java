@@ -31,9 +31,16 @@ services:
       - ./migrations:/liquibase/changelog
     networks:
       - backend
+  rabbitmq:
+    image: rabbitmq:3-management
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq/data
+    ports:
+      - "5672:5672"
+      - "15672:15672"
 
 volumes:
   postgresql-data:
-
+  rabbitmq-data:
 networks:
   backend:

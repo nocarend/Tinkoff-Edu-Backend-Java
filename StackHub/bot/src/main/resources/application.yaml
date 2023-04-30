@@ -1,8 +1,18 @@
+app:
+  queue: rabbitQ
+  exchange: rabbitEx
+  bind: scrapper
 bot:
   token: ${token}
   name: ${name}
   scrapper:
-    url: http://localhost:8080
+    url: http://localhost:8180
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
