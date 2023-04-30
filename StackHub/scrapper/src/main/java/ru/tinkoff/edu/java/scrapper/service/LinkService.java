@@ -19,4 +19,5 @@ public interface LinkService {
 
     void setCurrentUpdateTime(List<Long> ids);
 
+    boolean contains(URI url);
 }
