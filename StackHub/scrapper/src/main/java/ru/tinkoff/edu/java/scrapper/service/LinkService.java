@@ -1,35 +1,23 @@
 package ru.tinkoff.edu.java.scrapper.service;
 
-
 import java.net.URI;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import ru.tinkoff.edu.java.scrapper.dto.response.LinkResponse;
-import ru.tinkoff.edu.java.scrapper.repository.LinkRepository;
-import ru.tinkoff.edu.java.scrapper.repository.dto.AddLinkRequest;
+import java.sql.Timestamp;
+import java.util.List;
+import ru.tinkoff.edu.java.scrapper.model.Link;
 
-@Service
-@RequiredArgsConstructor
-public class LinkService {
+public interface LinkService {
 
-    private final LinkRepository repository;
+    Link add(URI url);
 
+    Link remove(URI url);
 
-    public LinkResponse getByLinkId(long id) {
-        var link = repository.findById(id);
-        return new LinkResponse(link.id(), link.url());
-    }
+    Link getLinkById(long id);
 
-    public LinkResponse getByUrl(URI url) {
-        var link = repository.findByURL(url);
-        return new LinkResponse(link.id(), link.url());
-    }
+    Link getLinkByUrl(URI url);
 
-    public boolean contains(URI url) {
-        return getByUrl(url) != null;
-    }
+    List<Link> findAll(Timestamp timeBeforeUpdates);
 
-    public void add(URI url) {
-        repository.add(new AddLinkRequest(url, null));
-    }
+    void setCurrentUpdateTime(List<Long> ids);
+
+    boolean contains(URI url);
 }

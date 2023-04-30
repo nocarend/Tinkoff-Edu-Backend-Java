@@ -5,7 +5,9 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import ru.tinkoff.edu.java.scrapper.dto.response.client.StackOverflowResponse;
+import ru.tinkoff.edu.java.scrapper.dto.response.client.ListStackOverflowAnswerResponse;
+import ru.tinkoff.edu.java.scrapper.dto.response.client.ListStackOverflowCommentResponse;
+import ru.tinkoff.edu.java.scrapper.dto.response.client.StackOverflowBaseResponse;
 
 @Getter
 @Setter
@@ -18,11 +20,29 @@ public class StackOverflowClient {
         this.webClient = webClient;
     }
 
-    public StackOverflowResponse getStackOverflowResponse(String questionId) {
+    public StackOverflowBaseResponse getStackOverflowResponse(String questionId) {
         return webClient.get()
             .uri("/questions/{id}", questionId)
             .retrieve()
-            .bodyToMono(StackOverflowResponse.class)
+            .bodyToMono(StackOverflowBaseResponse.class)
             .block();
     }
+
+    public ListStackOverflowAnswerResponse getStackOverflowAnswerResponse(String questionId) {
+        return webClient.get()
+            .uri("/questions/{id}/answers", questionId)
+            .retrieve()
+            .bodyToMono(ListStackOverflowAnswerResponse.class)
+            .block();
+    }
+
+    public ListStackOverflowCommentResponse getStackOverflowCommentResponse(String questionId) {
+        return webClient.get()
+            .uri("/questions/{id}/comments", questionId)
+            .retrieve()
+            .bodyToMono(ListStackOverflowCommentResponse.class)
+            .block();
+    }
+
+
 }
