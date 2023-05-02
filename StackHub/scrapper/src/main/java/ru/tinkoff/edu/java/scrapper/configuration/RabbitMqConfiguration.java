@@ -5,6 +5,7 @@ import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.QueueBuilder;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
@@ -19,7 +20,9 @@ public class RabbitMqConfiguration {
 
     @Bean
     public Queue queue() {
-        return new Queue(applicationConfig.queue(), false);
+        return QueueBuilder.nonDurable(applicationConfig.queue())
+            .withArgument("x-dead-letter-exchange", applicationConfig.exchange() + ".dlq")
+            .build();
     }
 
     @Bean
