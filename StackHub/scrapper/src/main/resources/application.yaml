@@ -1,6 +1,6 @@
 app:
   scheduler:
-    interval: 1000000
+    interval: 1000
   database-access-type: jdbc
   queue: rabbitQ
   exchange: rabbitEx

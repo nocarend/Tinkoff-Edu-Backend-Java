@@ -18,41 +18,38 @@ public class RabbitMqConfiguration {
     private final ApplicationConfig applicationConfig;
 
     @Bean
-    Queue messagesQueue() {
-        return QueueBuilder.nonDurable(applicationConfig.queue())
-            .withArgument("x-dead-letter-exchange", applicationConfig.exchange() + ".dlq")
-            .build();
+    DirectExchange deadLetterExchange() {
+        return new DirectExchange(applicationConfig.exchange() + ".dlx");
     }
 
     @Bean
-    public Queue queue() {
-        return new Queue(applicationConfig.queue());
-    }
-
-    @Bean
-    public DirectExchange directExchange() {
+    DirectExchange exchange() {
         return new DirectExchange(applicationConfig.exchange());
     }
 
     @Bean
-    public Binding binding(Queue queue, DirectExchange directExchange) {
-        return BindingBuilder.bind(queue).to(directExchange).with(applicationConfig.bind());
+    Queue deadLetterQueue() {
+        return QueueBuilder.nonDurable(applicationConfig.queue() + ".dlq").build();
     }
 
     @Bean
-    public Queue deadLetterQueue() {
-        return new Queue(applicationConfig.queue() + ".dlq");
+    Queue queue() {
+        return QueueBuilder.nonDurable(applicationConfig.queue())
+            .withArgument("x-dead-letter-exchange", applicationConfig.exchange() + ".dlx")
+            .withArgument("x-dead-letter-routing-key", applicationConfig.bind() + ".dlb")
+            .build();
     }
 
     @Bean
-    public DirectExchange deadLetterDirectExchange() {
-        return new DirectExchange(applicationConfig.exchange() + ".dlq");
+    Binding deadLetterBind(Queue deadLetterQueue, DirectExchange deadLetterExchange) {
+        return BindingBuilder.bind(deadLetterQueue).to(deadLetterExchange)
+            .with(applicationConfig.bind() + ".dlb");
     }
 
     @Bean
-    public Binding deadLetterBinding(Queue queue, DirectExchange directExchange) {
-        return BindingBuilder.bind(queue).to(directExchange)
-            .with(applicationConfig.bind() + ".dlq");
+    Binding bind(Queue deadLetterQueue, DirectExchange deadLetterExchange) {
+        return BindingBuilder.bind(deadLetterQueue).to(deadLetterExchange)
+            .with(applicationConfig.bind());
     }
 
     @Bean

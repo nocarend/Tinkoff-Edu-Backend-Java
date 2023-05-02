@@ -21,7 +21,8 @@ public class RabbitMqConfiguration {
     @Bean
     public Queue queue() {
         return QueueBuilder.nonDurable(applicationConfig.queue())
-            .withArgument("x-dead-letter-exchange", applicationConfig.exchange() + ".dlq")
+            .withArgument("x-dead-letter-exchange", applicationConfig.exchange() + ".dlx")
+            .withArgument("x-dead-letter-routing-key", applicationConfig.bind() + ".dlb")
             .build();
     }
 
