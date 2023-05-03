@@ -16,14 +16,13 @@ public class JpaLinkService implements LinkService {
     @Override
     public Link add(URI url) {
         repository.add(url.toString(), new Timestamp(System.currentTimeMillis()));
-        return new Link().setUrl(url);
+        return new Link().setUrl(url.toString());
     }
 
     @Override
     public Link remove(URI url) {
         repository.remove(url.toString());
-        //надо у юзеров тоже удалять
-        return new Link().setUrl(url);
+        return new Link().setUrl(url.toString());
     }
 
     @Override

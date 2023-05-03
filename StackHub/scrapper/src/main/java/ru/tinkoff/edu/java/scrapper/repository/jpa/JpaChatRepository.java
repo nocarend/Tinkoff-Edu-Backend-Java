@@ -2,30 +2,36 @@ package ru.tinkoff.edu.java.scrapper.repository.jpa;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import ru.tinkoff.edu.java.scrapper.model.Chat;
 import ru.tinkoff.edu.java.scrapper.repository.ChatRepository;
 
 public interface JpaChatRepository extends JpaRepository<Chat, Long>, ChatRepository {
 
     @Override
-    @Query(value = "delete from chat where chat_id = :chat_id", nativeQuery = true)
-    void removeByChatId(@Param("chat_id") long chatId);
+    default void add(long chatId, long linkId) {
+        save(new Chat().setChatId(chatId).setLinkId(linkId));
+    }
 
     @Override
-    @Query(value = "insert into chat(chat_id, link_id) values (:chat_id, :link_id)", nativeQuery = true)
-    void add(@Param("chat_id") long chatId, @Param("link_id") long linkId);
+    default void removeByTrackId(long trackId) {
+        var chat = findById(trackId);
+        chat.ifPresent(this::delete);
+    }
 
     @Override
-    @Query(value = "delete from chat where track_id = :track_id", nativeQuery = true)
-    void removeByTrackId(@Param("track_id") long trackId);
+    default void removeByChatId(long chatId) {
+        var chats = findAllChats();
+        chats.stream().filter(chat -> chat.getChatId() == chatId).forEach(this::delete);
+    }
 
     @Override
-    @Query(value = "select * from chat", nativeQuery = true)
-    List<Chat> findAllChats();
+    default List<Chat> findAllChats() {
+        return findAll();
+    }
 
     @Override
-    @Query(value = "select t from chat t where t.chat_id = :chat_id", nativeQuery = true)
-    List<Chat> findByChatId(@Param("chat_id") long chatId);
+    default List<Chat> findByChatId(long chatId) {
+        var chats = findAllChats();
+        return chats.stream().filter(chat -> chat.getChatId() == chatId).toList();
+    }
 }

@@ -49,15 +49,15 @@ public class JdbcLinkRepositoryTest extends IntegrationEnvironment {
         var result = linkRepository.findAllLinks();
         Assertions.assertAll(
             () -> Assertions.assertEquals(new Link().setId(result.get(0).getId())
-                    .setUrl(URI.create("https://github.com/nocarend/Tinkoff-Edu-Backend-Java"))
+                    .setUrl(("https://github.com/nocarend/Tinkoff-Edu-Backend-Java"))
                     .setUpdatedAt(new Timestamp(10)),
                 result.get(0)),
             () -> Assertions.assertEquals(new Link().setId(result.get(1).getId())
-                    .setUrl(URI.create("https://github.com/nocarend/OOP"))
+                    .setUrl(("https://github.com/nocarend/OOP"))
                     .setUpdatedAt(new Timestamp(10)),
                 result.get(1)),
             () -> Assertions.assertEquals(new Link().setId(result.get(2).getId())
-                    .setUrl(URI.create("https://github.com/dmitry-irtegov/NSU-Python2023"))
+                    .setUrl(("https://github.com/dmitry-irtegov/NSU-Python2023"))
                     .setUpdatedAt(new Timestamp(10)),
                 result.get(2)));
     }
@@ -68,7 +68,7 @@ public class JdbcLinkRepositoryTest extends IntegrationEnvironment {
         var links = linkRepository.findAllLinks();
         var result = linkRepository.findById(links.get(0).getId()).get();
         Assertions.assertEquals(result,
-            new Link().setId(result.getId()).setUrl(URI.create("https://github.com/nocarend/OOP"))
+            new Link().setId(result.getId()).setUrl(("https://github.com/nocarend/OOP"))
                 .setUpdatedAt(new Timestamp(10)));
     }
 
@@ -77,7 +77,7 @@ public class JdbcLinkRepositoryTest extends IntegrationEnvironment {
         linkRepository.add("https://github.com/nocarend/OOP", new Timestamp(10));
         var result = linkRepository.findByUrl("https://github.com/nocarend/OOP").get();
         Assertions.assertEquals(result,
-            new Link().setId(result.getId()).setUrl(URI.create("https://github.com/nocarend/OOP"))
+            new Link().setId(result.getId()).setUrl(("https://github.com/nocarend/OOP"))
                 .setUpdatedAt(new Timestamp(10)));
     }
 }

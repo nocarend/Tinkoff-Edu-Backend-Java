@@ -1,6 +1,5 @@
 package ru.tinkoff.edu.java.scrapper.db;
 
-import java.net.URI;
 import java.sql.Timestamp;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -9,7 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import ru.tinkoff.edu.java.scrapper.ScrapperApplication;
 import ru.tinkoff.edu.java.scrapper.model.Link;
-import ru.tinkoff.edu.java.scrapper.repository.jdbc.JdbcLinkRepository;
 import ru.tinkoff.edu.java.scrapper.repository.jpa.JpaLinkRepository;
 
 @Transactional
@@ -35,6 +33,7 @@ public class JpaLinkRepositoryTest extends IntegrationEnvironment {
     void removeTest() {
         linkRepository.add("https://github.com/nocarend/Tinkoff-Edu-Backend-Java",
             new Timestamp(10));
+        System.out.println(linkRepository.findAllLinks());
         linkRepository.remove("https://github.com/nocarend/Tinkoff-Edu-Backend-Java");
         Assertions.assertTrue(
             linkRepository.findByUrl("https://github.com/nocarend/Tinkoff-Edu-Backend-Java")
@@ -50,15 +49,15 @@ public class JpaLinkRepositoryTest extends IntegrationEnvironment {
         var result = linkRepository.findAllLinks();
         Assertions.assertAll(
             () -> Assertions.assertEquals(new Link().setId(result.get(0).getId())
-                    .setUrl(URI.create("https://github.com/nocarend/Tinkoff-Edu-Backend-Java"))
+                    .setUrl(("https://github.com/nocarend/Tinkoff-Edu-Backend-Java"))
                     .setUpdatedAt(new Timestamp(10)),
                 result.get(0)),
             () -> Assertions.assertEquals(new Link().setId(result.get(1).getId())
-                    .setUrl(URI.create("https://github.com/nocarend/OOP"))
+                    .setUrl(("https://github.com/nocarend/OOP"))
                     .setUpdatedAt(new Timestamp(10)),
                 result.get(1)),
             () -> Assertions.assertEquals(new Link().setId(result.get(2).getId())
-                    .setUrl(URI.create("https://github.com/dmitry-irtegov/NSU-Python2023"))
+                    .setUrl(("https://github.com/dmitry-irtegov/NSU-Python2023"))
                     .setUpdatedAt(new Timestamp(10)),
                 result.get(2)));
     }
@@ -67,9 +66,9 @@ public class JpaLinkRepositoryTest extends IntegrationEnvironment {
     void findByIdTest() {
         linkRepository.add("https://github.com/nocarend/OOP", new Timestamp(10));
         var links = linkRepository.findAllLinks();
-        var result = linkRepository.findById(links.get(0).getId()).get();
+        var result = linkRepository.findById(Long.valueOf(links.get(0).getId())).get();
         Assertions.assertEquals(result,
-            new Link().setId(result.getId()).setUrl(URI.create("https://github.com/nocarend/OOP"))
+            new Link().setId(result.getId()).setUrl(("https://github.com/nocarend/OOP"))
                 .setUpdatedAt(new Timestamp(10)));
     }
 
@@ -79,7 +78,7 @@ public class JpaLinkRepositoryTest extends IntegrationEnvironment {
         linkRepository.add("https://github.com/nocarend/OOP", new Timestamp(10));
         var result = linkRepository.findByUrl("https://github.com/nocarend/OOP").get();
         Assertions.assertEquals(result,
-            new Link().setId(result.getId()).setUrl(URI.create("https://github.com/nocarend/OOP"))
+            new Link().setId(result.getId()).setUrl(("https://github.com/nocarend/OOP"))
                 .setUpdatedAt(new Timestamp(10)));
     }
 }

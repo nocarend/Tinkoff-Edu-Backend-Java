@@ -20,7 +20,7 @@ import ru.tinkoff.edu.java.scrapper.service.updater.dto.LinkUpdate;
 @RequiredArgsConstructor
 public class LinkUpdaterService implements LinkUpdater {
 
-    private final LinkService linkService;
+    private final LinkService    linkService;
     private final ChatService chatService;
 
     private final GitHubClient gitHubClient;
@@ -31,7 +31,7 @@ public class LinkUpdaterService implements LinkUpdater {
         var links = linkService.findAll(new Timestamp(System.currentTimeMillis()));
         List<LinkUpdate> updates = new ArrayList<>();
         for (var link : links) {
-            ExternalParser externalParser = new ExternalParser(link.getUrl().toString());
+            ExternalParser externalParser = new ExternalParser(link.getUrl());
             var value = externalParser.parse();
             switch (value) {
                 case Github github -> {
@@ -39,12 +39,9 @@ public class LinkUpdaterService implements LinkUpdater {
                         .updatedAt().toLocalDateTime()
                         .equals(link.getUpdatedAt().toLocalDateTime())) {
                         var chats = chatService.getChatsFromLinkId(link.getId());
-                        updates.add(new LinkUpdate(link.getId(), link.getUrl().toString(),
+                        updates.add(new LinkUpdate(link.getId(), link.getUrl(),
                             "New updates from Github", chats));
                         linkService.setCurrentUpdateTime(chats);
-//                        telegramBotClient.sendUpdate(link.getId(), link.getUrl(),
-//                            "New updates from Github!",
-//                            chats);
                     }
                 }
                 case StackOverflow stackOverflow -> {
@@ -52,12 +49,9 @@ public class LinkUpdaterService implements LinkUpdater {
                         .activity().toLocalDateTime()
                         .equals(link.getUpdatedAt().toLocalDateTime())) {
                         var chats = chatService.getChatsFromLinkId(link.getId());
-                        updates.add(new LinkUpdate(link.getId(), link.getUrl().toString(),
+                        updates.add(new LinkUpdate(link.getId(), link.getUrl(),
                             "New updates from Github", chats));
                         linkService.setCurrentUpdateTime(chats);
-//                        telegramBotClient.sendUpdate(link.getId(), link.getUrl(),
-//                            "New comments and answers from StackOverflow!",
-//                            chats);
                     }
                 }
                 default -> throw new NotImplementedException();

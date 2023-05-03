@@ -46,21 +46,17 @@ public class JdbcChatService implements ChatService {
             linkService.add(url);
         }
         repository.add(chatId, linkService.getLinkByUrl(url).getId());
-        return new Link().setUrl(url);
+        return new Link().setUrl(url.toString());
     }
 
     @Override
     public Link untrack(long chatId, URI url) {
-        if (repository.findByChatId(chatId).stream()
+        repository.findByChatId(chatId).stream()
             .noneMatch(
-                track -> linkService.getLinkById(track.getLinkId()).getUrl().equals(url))) {
-            throw new UnsupportedOperationException();
-        }
-        var links = repository.findByChatId(chatId).stream()
-            .filter(link -> linkService.getLinkById(link.getLinkId()).getUrl() == url).toList();
-        if (!links.isEmpty()) {
-            repository.removeByTrackId(links.get(0).getTrackId());
-        }
-        return new Link().setUrl(url);
+                track -> {
+                    linkService.getLinkById(track.getLinkId());
+                    return false;
+                });
+        throw new UnsupportedOperationException();
     }
 }

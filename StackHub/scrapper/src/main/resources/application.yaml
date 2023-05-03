@@ -21,11 +21,12 @@ spring:
     change-log: classpath:migrations/master.xml
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
   rabbitmq:
     host: localhost
     port: 5672
     username: guest
-    password: guest
 springdoc:
   swagger-ui:
     path: /swagger-ui.html

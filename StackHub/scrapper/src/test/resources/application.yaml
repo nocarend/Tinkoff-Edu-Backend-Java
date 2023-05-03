@@ -1,3 +1,6 @@
+username: postgres
+password: password
+database: scrapper
 app:
   scheduler:
     interval: 1000000

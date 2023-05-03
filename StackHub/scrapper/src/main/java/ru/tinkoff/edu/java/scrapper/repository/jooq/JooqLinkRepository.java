@@ -1,6 +1,5 @@
 package ru.tinkoff.edu.java.scrapper.repository.jooq;
 
-import java.net.URI;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
@@ -40,14 +39,17 @@ public class JooqLinkRepository implements LinkRepository {
 
     @Override
     public List<Link> findAllLinks() {
-        return dslContext.selectFrom(Tables.LINK).fetchInto(Link.class);
+        return dslContext.selectFrom(Tables.LINK).fetch().stream()
+            .map(v -> new Link(v.getId(), v.getUrl(),
+                Timestamp.valueOf(v.getUpdatedAt())))
+            .toList();
     }
 
     @Override
     public Optional<Link> findById(long id) {
         var row = dslContext.selectFrom(Tables.LINK).where(Tables.LINK.ID.eq(id)).fetchSingle();
         return Optional.ofNullable(new Link()
-            .setUrl(URI.create(row.getUrl()))
+            .setUrl(row.getUrl())
             .setId(row.getId())
             .setUpdatedAt(Timestamp.valueOf(row.getUpdatedAt())));
     }
@@ -59,10 +61,10 @@ public class JooqLinkRepository implements LinkRepository {
             row = dslContext.selectFrom(Tables.LINK).where(Tables.LINK.URL.eq(url))
                 .fetchSingle();
         } catch (NoDataFoundException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         return Optional.ofNullable(row == null ? null : new Link()
-            .setUrl(URI.create(row.getUrl()))
+            .setUrl(row.getUrl())
             .setId(row.getId())
             .setUpdatedAt(Timestamp.valueOf(row.getUpdatedAt())));
     }
