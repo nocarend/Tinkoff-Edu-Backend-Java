@@ -1,18 +1,16 @@
 package ru.tinkoff.edu.java.scrapper.model;
 
-import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import java.net.URI;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import org.apache.logging.log4j.core.config.plugins.convert.TypeConverters.UriConverter;
 
 @ToString
 @Getter
@@ -24,6 +22,7 @@ import org.apache.logging.log4j.core.config.plugins.convert.TypeConverters.UriCo
 public class Link {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String url;
     private Timestamp updatedAt;

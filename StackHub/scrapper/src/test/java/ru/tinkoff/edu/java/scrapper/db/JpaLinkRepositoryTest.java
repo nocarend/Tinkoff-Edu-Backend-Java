@@ -33,6 +33,7 @@ public class JpaLinkRepositoryTest extends IntegrationEnvironment {
     void removeTest() {
         linkRepository.add("https://github.com/nocarend/Tinkoff-Edu-Backend-Java",
             new Timestamp(10));
+        System.out.println(linkRepository.findAllLinks());
         linkRepository.remove("https://github.com/nocarend/Tinkoff-Edu-Backend-Java");
         Assertions.assertTrue(
             linkRepository.findByUrl("https://github.com/nocarend/Tinkoff-Edu-Backend-Java")

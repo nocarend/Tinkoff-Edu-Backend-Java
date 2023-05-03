@@ -1,7 +1,8 @@
 package ru.tinkoff.edu.java.scrapper.service;
 
-import java.util.List;
+import org.springframework.stereotype.Service;
 
 public interface LinkUpdater {
+
     int update();
 }
