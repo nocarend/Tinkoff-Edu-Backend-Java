@@ -65,6 +65,7 @@ public class JooqChatRepositoryTest extends IntegrationEnvironment {
             () -> Assertions.assertEquals(
                 new Chat().setTrackId(result.get(2).getTrackId()).setChatId(143)
                     .setLinkId(id), result.get(2)));
+
     }
 
     @Test
