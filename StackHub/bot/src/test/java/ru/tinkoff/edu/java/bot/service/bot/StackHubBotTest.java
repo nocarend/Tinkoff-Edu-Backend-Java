@@ -13,6 +13,7 @@ import ru.tinkoff.edu.java.bot.service.command.HelpCommand;
 import ru.tinkoff.edu.java.bot.telegram.Commands;
 import ru.tinkoff.edu.java.bot.telegram.StackHubBot;
 
+
 @ExtendWith(MockitoExtension.class)
 class StackHubBotTest {
 
@@ -20,6 +21,10 @@ class StackHubBotTest {
     private StackHubBot bot;
     @Mock
     private HelpCommand helpCommand;
+    @Mock
+    private String token;
+    @Mock
+    private String name;
     @Mock
     private Commands commands;
     private Update update = new Update();

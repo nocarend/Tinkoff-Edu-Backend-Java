@@ -1,35 +1,45 @@
-package ru.tinkoff.edu.java.scrapper.service.jooq;
+package ru.tinkoff.edu.java.scrapper.service.jpa;
 
 import java.net.URI;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 import ru.tinkoff.edu.java.scrapper.model.Chat;
 import ru.tinkoff.edu.java.scrapper.model.Link;
-import ru.tinkoff.edu.java.scrapper.repository.jooq.JooqChatRepository;
+import ru.tinkoff.edu.java.scrapper.repository.jpa.JpaChatRepository;
 import ru.tinkoff.edu.java.scrapper.service.ChatService;
 import ru.tinkoff.edu.java.scrapper.service.LinkService;
 
 @RequiredArgsConstructor
-public class JooqChatService implements ChatService {
+public class JpaChatService implements ChatService {
 
-    private final JooqChatRepository repository;
+    private final JpaChatRepository repository;
     private final LinkService linkService;
 
+    @Transactional(readOnly = true)
     @Override
     public List<Link> getLinksFromChatId(long chatId) {
-        return repository.findByChatId(chatId).stream()
-            .map(track -> linkService.getLinkById(track.getLinkId())).toList();
+        var links = repository.findByChatId(chatId);
+        return links.stream().map(link -> new Link().setId(link.getLinkId())
+            .setUrl(linkService.getLinkById(link.getLinkId()).getUrl())).toList();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public void create(long chatId) {
+        if (!repository.findByChatId(chatId).isEmpty()) {
+            throw new UnsupportedOperationException();
+        }
     }
 
+    @Transactional
     @Override
     public void delete(long chatId) {
-        repository.removeByChatId(chatId);
+        repository.findByChatId(chatId).forEach(track -> repository.deleteById(
+            track.getTrackId()));
     }
 
+    @Transactional
     @Override
     public Link track(long chatId, URI url) {
         if (!linkService.contains(url)) {
@@ -39,6 +49,7 @@ public class JooqChatService implements ChatService {
         return new Link().setUrl(url.toString());
     }
 
+    @Transactional
     @Override
     public Link untrack(long chatId, URI url) {
         repository.findByChatId(chatId).stream()
@@ -50,6 +61,7 @@ public class JooqChatService implements ChatService {
         throw new UnsupportedOperationException();
     }
 
+    @Transactional
     @Override
     public List<Long> getChatsFromLinkId(long linkId) {
         return repository.findAllChats().stream().filter(track -> track.getLinkId() == linkId)

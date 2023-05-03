@@ -20,7 +20,7 @@ import ru.tinkoff.edu.java.scrapper.service.LinkUpdater;
 @RequiredArgsConstructor
 public class JdbcLinkUpdaterService implements LinkUpdater {
 
-    private final LinkService linkService;
+    private final LinkService    linkService;
     private final ChatService chatService;
 
     private final TelegramBotClient telegramBotClient;
@@ -32,7 +32,7 @@ public class JdbcLinkUpdaterService implements LinkUpdater {
         var links = linkService.findAll(new Timestamp(System.currentTimeMillis()));
         int numberOfUpdatedLinks = 0;
         for (var link : links) {
-            ExternalParser externalParser = new ExternalParser(link.getUrl().toString());
+            ExternalParser externalParser = new ExternalParser(link.getUrl());
             var value = externalParser.parse();
             switch (value) {
                 case Github github -> {
