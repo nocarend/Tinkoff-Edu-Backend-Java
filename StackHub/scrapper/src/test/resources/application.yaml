@@ -5,6 +5,10 @@ app:
   scheduler:
     interval: 1000000
   database-access-type: jdbc
+  queue: rabbitQ
+  exchange: rabbitEx
+  bind: scrapper
+  use-queue: true
 server:
   port: 8180
 spring:
@@ -24,6 +28,11 @@ spring:
     hibernate:
       ddl-auto: none
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
 springdoc:
   swagger-ui:
     path: /swagger-ui.html

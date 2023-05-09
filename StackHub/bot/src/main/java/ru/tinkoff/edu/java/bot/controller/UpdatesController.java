@@ -27,14 +27,7 @@ public class UpdatesController {
     })
     @PostMapping("/updates")
     public ResponseEntity<Void> updatesPost(@RequestBody LinkUpdateRequest linkUpdate) {
-        linkUpdate.tgChatIds().forEach(id -> {
-            try {
-                bot.execute(new SendMessage(id.toString(), linkUpdate.description()));
-            } catch (TelegramApiException e) {
-//                throw new RuntimeException(e);
-                e.printStackTrace();
-            }
-        });
+        updater.update(linkUpdate);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

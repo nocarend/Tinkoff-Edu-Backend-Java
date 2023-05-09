@@ -13,10 +13,10 @@ import ru.tinkoff.edu.java.bot.telegram.StackHubBot;
 @SpringBootTest
 class StackHubBotTest {
 
-    @Autowired
-    private StackHubBot bot;
     private final Update update = new Update();
     private final Message message = new Message();
+    @Autowired
+    private StackHubBot bot;
 
     @Test
     void specialMessage_Test() {
