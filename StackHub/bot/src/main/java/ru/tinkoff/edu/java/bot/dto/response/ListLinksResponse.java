@@ -2,6 +2,12 @@ package ru.tinkoff.edu.java.bot.dto.response;
 
 import java.util.List;
 
+/**
+ * Response dto containing list of links and its size.
+ *
+ * @param links links list
+ * @param size  size of links list
+ */
 public record ListLinksResponse(List<LinkResponse> links, int size) {
 
     @Override

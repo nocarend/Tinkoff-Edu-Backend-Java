@@ -7,6 +7,9 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.tinkoff.edu.java.bot.service.CommandHandlerService;
 
+/**
+ * List command that show all tracked links.
+ */
 @RequiredArgsConstructor
 @Controller
 public class ListCommand implements Command {

@@ -20,7 +20,7 @@ import ru.tinkoff.edu.java.scrapper.service.LinkUpdater;
 @RequiredArgsConstructor
 public class JdbcLinkUpdaterService implements LinkUpdater {
 
-    private final LinkService    linkService;
+    private final LinkService linkService;
     private final ChatService chatService;
 
     private final TelegramBotClient telegramBotClient;

@@ -8,6 +8,9 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.tinkoff.edu.java.bot.service.CommandHandlerService;
 
+/**
+ * Track commands that tries to track given link.
+ */
 @RequiredArgsConstructor
 @Controller
 public class TrackCommand implements Command {

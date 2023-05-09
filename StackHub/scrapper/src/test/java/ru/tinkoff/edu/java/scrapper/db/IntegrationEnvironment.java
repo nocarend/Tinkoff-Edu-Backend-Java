@@ -44,18 +44,17 @@ public class IntegrationEnvironment implements BeforeAllCallback {
                 return configuration;
             }
         }
+
         var config = PropertiesLoader.loadProperties("application.yaml");
         postgres = new PostgreSQLContainer<>(
             DockerImageName.parse("postgres:15"))
             .withNetwork(backend)
-            .withExposedPorts(5432)
             .withUsername(config.getProperty("username"))
-            .withPassword(config.getProperty("password"))
-            .withDatabaseName(config.getProperty("database"));
+            .withPassword(config.getProperty("password"));
         postgres.start();
     }
 
-    private AtomicBoolean initialized = new AtomicBoolean(false);
+    private final AtomicBoolean initialized = new AtomicBoolean(false);
 
     @Override
     public void beforeAll(ExtensionContext extensionContext)
