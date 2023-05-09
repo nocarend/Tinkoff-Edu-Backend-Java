@@ -6,6 +6,7 @@ import ru.tinkoff.edu.java.scrapper.configuration.database.AccessType;
 
 @Validated
 @ConfigurationProperties(prefix = "app", ignoreUnknownFields = false)
-public record ApplicationConfig(Scheduler scheduler, AccessType databaseAccessType) {
+public record ApplicationConfig(Scheduler scheduler, AccessType databaseAccessType, String queue,
+                                String exchange, String bind, boolean useQueue) {
 
 }
