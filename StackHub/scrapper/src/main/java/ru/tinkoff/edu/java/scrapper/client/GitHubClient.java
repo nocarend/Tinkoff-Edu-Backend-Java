@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import ru.tinkoff.edu.java.scrapper.dto.response.client.GitHubResponse;
 
+/**
+ * Create a Github entity.
+ */
 @Getter
 @Setter
 @Service
@@ -18,6 +21,13 @@ public class GitHubClient {
         this.webClient = webClient;
     }
 
+    /**
+     * Get data from url.
+     *
+     * @param username       github username
+     * @param repositoryName github repository name
+     * @return entity with data
+     */
     public GitHubResponse getGitHubResponse(String username, String repositoryName) {
         return webClient.get()
             .uri("/repos/{username}/{repositoryName}/hooks", username, repositoryName)

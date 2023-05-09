@@ -6,6 +6,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import ru.tinkoff.edu.java.scrapper.service.updater.LinkUpdater;
+
 @EnableScheduling
 @Controller
 @Log4j2

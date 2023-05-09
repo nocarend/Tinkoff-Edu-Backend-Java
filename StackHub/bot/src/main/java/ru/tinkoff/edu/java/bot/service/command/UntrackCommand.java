@@ -8,6 +8,9 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.tinkoff.edu.java.bot.service.CommandHandlerService;
 
+/**
+ * Untrack command that tries to untrack given link if its exists.
+ */
 @RequiredArgsConstructor
 @Controller
 public class UntrackCommand implements Command {

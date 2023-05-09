@@ -9,6 +9,9 @@ import ru.tinkoff.edu.java.scrapper.dto.response.client.ListStackOverflowAnswerR
 import ru.tinkoff.edu.java.scrapper.dto.response.client.ListStackOverflowCommentResponse;
 import ru.tinkoff.edu.java.scrapper.dto.response.client.StackOverflowBaseResponse;
 
+/**
+ * Create a StackOverflow entity.
+ */
 @Getter
 @Setter
 @Service
@@ -20,6 +23,12 @@ public class StackOverflowClient {
         this.webClient = webClient;
     }
 
+    /**
+     * Get data from stackoverflow link.
+     *
+     * @param questionId stackoverflow question id
+     * @return link data
+     */
     public StackOverflowBaseResponse getStackOverflowResponse(String questionId) {
         return webClient.get()
             .uri("/questions/{id}", questionId)

@@ -8,6 +8,9 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.tinkoff.edu.java.bot.service.CommandHandlerService;
 import ru.tinkoff.edu.java.bot.telegram.Commands;
 
+/**
+ * Help command that show all commands list.
+ */
 @RequiredArgsConstructor
 @Controller
 public class HelpCommand implements Command {

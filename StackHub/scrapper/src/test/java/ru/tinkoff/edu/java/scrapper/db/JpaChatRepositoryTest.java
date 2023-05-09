@@ -3,14 +3,20 @@ package ru.tinkoff.edu.java.scrapper.db;
 import java.sql.Timestamp;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 import ru.tinkoff.edu.java.scrapper.ScrapperApplication;
 import ru.tinkoff.edu.java.scrapper.model.Chat;
 import ru.tinkoff.edu.java.scrapper.repository.jpa.JpaChatRepository;
 import ru.tinkoff.edu.java.scrapper.repository.jpa.JpaLinkRepository;
 
+/**
+ * Jpa Database tests.
+ */
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = ScrapperApplication.class, properties = {
     "app.database-access-type=jpa"
 })

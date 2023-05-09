@@ -2,6 +2,11 @@ package ru.tinkoff.edu.java.bot.dto.response;
 
 import java.util.List;
 
+/**
+ * Response dto containing list of commands.
+ *
+ * @param commands commands list
+ */
 public record ListCommandsResponse(List<CommandResponse> commands) {
 
     @Override

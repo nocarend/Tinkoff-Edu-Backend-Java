@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import ru.tinkoff.edu.java.scrapper.dto.response.ApiErrorResponse;
 
+/**
+ * Simple api error handler.
+ */
 @RestControllerAdvice
 public class GlobalErrorHandler extends ResponseEntityExceptionHandler {
 

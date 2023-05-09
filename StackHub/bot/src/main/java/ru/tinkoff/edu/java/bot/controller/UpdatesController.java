@@ -9,17 +9,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.tinkoff.edu.java.bot.dto.request.LinkUpdateRequest;
 import ru.tinkoff.edu.java.bot.service.Updater;
-import ru.tinkoff.edu.java.bot.telegram.StackHubBot;
 
+/**
+ * Controller for handling updates.
+ */
 @RestController
 @RequiredArgsConstructor
 public class UpdatesController {
 
-    private final StackHubBot bot;
     private final Updater updater;
 
     @Operation(summary = "Отправить обновление")

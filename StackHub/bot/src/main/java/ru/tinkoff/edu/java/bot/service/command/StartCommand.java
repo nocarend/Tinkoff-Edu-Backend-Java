@@ -7,6 +7,9 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.tinkoff.edu.java.bot.service.CommandHandlerService;
 
+/**
+ * Start command that start a bot and show a message.
+ */
 @RequiredArgsConstructor
 @Controller
 public class StartCommand implements Command {

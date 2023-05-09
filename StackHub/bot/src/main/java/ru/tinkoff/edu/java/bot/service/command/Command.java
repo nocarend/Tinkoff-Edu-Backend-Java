@@ -5,6 +5,9 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+/**
+ * Interface for any telegram command.
+ */
 public interface Command {
 
     String command();

@@ -1,5 +1,7 @@
 package ru.tinkoff.edu.java.bot.telegram;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -11,12 +13,14 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import ru.tinkoff.edu.java.bot.service.command.HelpCommand;
 
 @Service
-public class StackHubBot extends TelegramLongPollingBot implements Bot {
+@Getter
+@Setter
+public class StackHubBot extends TelegramLongPollingBot {
 
     private final Commands commands;
     private final HelpCommand helpCommand;
-    private final String token;
-    private final String name;
+    private String token;
+    private String name;
 
     @SneakyThrows
     public StackHubBot(@Qualifier("botToken") String token, @Qualifier("botName") String name,
@@ -26,10 +30,6 @@ public class StackHubBot extends TelegramLongPollingBot implements Bot {
         this.commands = commands;
         this.helpCommand = helpCommand;
         new TelegramBotsApi(DefaultBotSession.class).registerBot(this);
-    }
-
-    @Override
-    public void close() {
     }
 
     @Override

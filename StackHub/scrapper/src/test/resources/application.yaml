@@ -21,8 +21,12 @@ spring:
     username: postgres
     password: password
   liquibase:
+#    enabled: false
     change-log: classpath:migrations/master.xml
   jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   rabbitmq:
     host: localhost

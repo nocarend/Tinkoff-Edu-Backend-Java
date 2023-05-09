@@ -2,6 +2,9 @@ package ru.tinkoff.edu.java.bot.service.command;
 
 import lombok.NonNull;
 
+/**
+ * Utility class for all commands.
+ */
 public class CommandUtils {
 
     private CommandUtils() {

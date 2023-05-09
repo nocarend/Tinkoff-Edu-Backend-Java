@@ -20,7 +20,6 @@ import ru.tinkoff.edu.java.scrapper.dto.response.ApiErrorResponse;
 import ru.tinkoff.edu.java.scrapper.dto.response.LinkResponse;
 import ru.tinkoff.edu.java.scrapper.dto.response.ListLinksResponse;
 import ru.tinkoff.edu.java.scrapper.service.ChatService;
-import ru.tinkoff.edu.java.scrapper.service.LinkService;
 
 @RequestMapping("/links")
 @RestController
@@ -28,13 +27,12 @@ import ru.tinkoff.edu.java.scrapper.service.LinkService;
 public class LinksController {
 
     private final ChatService chatService;
-    private final LinkService linkService;
 
     @Operation(summary = "Получить все отслеживаемые ссылки")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Ссылки успешно получены", content = {
             @Content(mediaType = "application/json", schema =
-            @Schema(implementation = ListLinksResponse.class))
+                @Schema(implementation = ListLinksResponse.class))
         })})
     @GetMapping
     public ListLinksResponse getAllLinks(@RequestHeader long tgChatId) {
@@ -48,7 +46,7 @@ public class LinksController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Ссылка успешно добавлена", content = {
             @Content(mediaType = "appilcation/json", schema =
-            @Schema(implementation = LinkResponse.class))
+                @Schema(implementation = LinkResponse.class))
         })
     })
     @PostMapping
@@ -62,11 +60,11 @@ public class LinksController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Ссылка успешно убрана", content = {
             @Content(mediaType = "application/json", schema =
-            @Schema(implementation = LinkResponse.class))
+                @Schema(implementation = LinkResponse.class))
         }),
         @ApiResponse(responseCode = "404", description = "Ссылка не найдена", content = {
             @Content(mediaType = "application/json", schema =
-            @Schema(implementation = ApiErrorResponse.class))
+                @Schema(implementation = ApiErrorResponse.class))
         })
     })
     @DeleteMapping
