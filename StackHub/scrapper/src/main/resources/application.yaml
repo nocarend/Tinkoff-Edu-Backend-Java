@@ -1,13 +1,13 @@
 app:
   scheduler:
-    interval: 1000
+    interval: 10000
   database-access-type: jpa
   queue: rabbitQ
   exchange: rabbitEx
   bind: scrapper
-  use-queue: true
+  use-queue: false
 server:
-  port: 8180
+  port: 9000
 spring:
   sql:
     init:
@@ -36,4 +36,33 @@ github:
 stackoverflow:
   base-url: https://api.stackexchange.com/2.3
 bot:
-  base-url: http://localhost:8080
+  base-url: http://localhost:8000
+management:
+  server:
+    port: 9001
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+    info:
+      enabled: true
+    prometheus:
+      enabled: true
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+  endpoints:
+    web:
+      base-path: /
+      exposure:
+        include:
+          - info
+          - health
+          - prometheus
+      path-mapping:
+        prometheus: metrics
+    enabled-by-default: true
+  metrics:
+    tags:
+      app: 'scrapper'

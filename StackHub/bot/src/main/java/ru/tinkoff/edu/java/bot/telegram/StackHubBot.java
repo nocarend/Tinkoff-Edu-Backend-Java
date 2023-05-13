@@ -1,5 +1,6 @@
 package ru.tinkoff.edu.java.bot.telegram;
 
+import io.micrometer.core.instrument.MeterRegistry;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
@@ -10,6 +11,7 @@ import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
+import ru.tinkoff.edu.java.bot.metrics.MessageCounter;
 import ru.tinkoff.edu.java.bot.service.command.HelpCommand;
 
 @Service
@@ -19,16 +21,18 @@ public class StackHubBot extends TelegramLongPollingBot {
 
     private final Commands commands;
     private final HelpCommand helpCommand;
+    private final MessageCounter messageCounter;
     private String token;
     private String name;
 
     @SneakyThrows
     public StackHubBot(@Qualifier("botToken") String token, @Qualifier("botName") String name,
-        Commands commands, HelpCommand helpCommand) {
+        Commands commands, HelpCommand helpCommand, MeterRegistry meterRegistry) {
         this.token = token;
         this.name = name;
         this.commands = commands;
         this.helpCommand = helpCommand;
+        messageCounter = new MessageCounter(meterRegistry);
         new TelegramBotsApi(DefaultBotSession.class).registerBot(this);
     }
 
@@ -48,11 +52,13 @@ public class StackHubBot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         if (helpCommand.supports(update)) {
             execute(helpCommand.handle(update));
+            messageCounter.increment();
             return;
         }
         for (var command : commands.toList()) {
             if (command.supports(update)) {
                 execute(command.handle(update));
+                messageCounter.increment();
                 return;
             }
         }
