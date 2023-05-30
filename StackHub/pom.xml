@@ -35,6 +35,9 @@
     <testcontainers.version>1.18.0</testcontainers.version>
     <spring-data-jpa.version>3.0.5</spring-data-jpa.version>
     <spring-boot-starter-amqp.version>3.0.6</spring-boot-starter-amqp.version>
+    <spring-boot-starter-actuator.version>3.0.6</spring-boot-starter-actuator.version>
+    <micrometer-registry-prometheus.version>1.11.0</micrometer-registry-prometheus.version>
+    <micrometer-tracing-bridge-brave.version>1.1.0</micrometer-tracing-bridge-brave.version>
   </properties>
   <dependencies>
     <dependency>
@@ -122,6 +125,25 @@
         <scope>import</scope>
       </dependency>
 
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-actuator</artifactId>
+        <version>${spring-boot-starter-actuator.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>io.micrometer</groupId>
+        <artifactId>micrometer-registry-prometheus</artifactId>
+        <version>${micrometer-registry-prometheus.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>io.micrometer</groupId>
+        <artifactId>micrometer-tracing-bridge-brave</artifactId>
+        <version>${micrometer-tracing-bridge-brave.version}</version>
+      </dependency>
+
+
 
     </dependencies>
 
@@ -173,6 +195,7 @@
             <configLocation>checkstyle.xml</configLocation>
           </configuration>
         </plugin>
+
       </plugins>
     </pluginManagement>
     <plugins>

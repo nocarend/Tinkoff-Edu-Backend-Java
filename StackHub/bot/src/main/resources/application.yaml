@@ -6,7 +6,7 @@ bot:
   token: ${token}
   name: ${name}
   scrapper:
-    url: http://localhost:8180
+    url: http://localhost:9000
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
@@ -16,3 +16,33 @@ spring:
     port: 5672
     username: guest
     password: guest
+server:
+  port: 8000
+management:
+  server:
+    port: 8001
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+    info:
+      enabled: true
+    prometheus:
+      enabled: true
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+  endpoints:
+    web:
+      base-path: /
+      exposure:
+        include:
+          - info
+          - health
+          - prometheus
+      path-mapping:
+        prometheus: metrics
+  metrics:
+    tags:
+      app: 'bot'
